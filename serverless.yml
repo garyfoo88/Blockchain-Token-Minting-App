@@ -1,0 +1,23 @@
+service: mintale-lite
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: dev
+  region: us-east-1
+  iamRoleStatements:
+  - Effect: 'Allow'
+    Action:
+      - 'secretsmanager:GetSecretValue'
+    Resource: 'arn:aws:secretsmanager:us-east-1:123456789012:secret:mySecretId'
+
+functions:
+  app:
+    handler: server.handler
+    events:
+      - http:
+          path: /
+          method: ANY
+      - http:
+          path: /{any+}
+          method: ANY

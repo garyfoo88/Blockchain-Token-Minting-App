@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema } from "mongoose";
 
-interface INft extends Document {
+export interface INft extends Document {
   name: string;
   description: string;
   imageUrl: string;
