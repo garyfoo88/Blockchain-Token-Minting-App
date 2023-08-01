@@ -5,10 +5,11 @@ import { makeNFTService } from "../../common-services/services/nft/makeNFTServic
 
 export const mintNFT = async (req: CustomRequest, res: Response) => {
   const { name, description, imageUrl } = req.body;
+  const userId = req.user._id;
 
   if (!name || !description || !imageUrl) {
     res.status(400).json({
-      message: "Name, description, and image are required to mint an NFT",
+      message: "Missing required fields",
     });
     return;
   }
@@ -21,7 +22,7 @@ export const mintNFT = async (req: CustomRequest, res: Response) => {
     };
 
     const userService = makeUserService();
-    const user = await userService.getUserById(req.user._id);
+    const user = await userService.getUserById(userId);
 
     const nftService = makeNFTService();
     const savedNFT = await nftService.mintNFT(user, metadata);

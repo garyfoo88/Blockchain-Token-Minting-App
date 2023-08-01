@@ -1,23 +1,24 @@
 import { Response } from "express";
-import Nft from "../../common-services/models/Nft";
 import { CustomRequest } from "../../common-services/types/request";
-import axios from "axios";
+import { makeNFTService } from "../../common-services/services/nft/makeNFTService";
 
 export const getNFTDetails = async (req: CustomRequest, res: Response) => {
+  const nftId = req.params.id;
+  const userId = req.user._id;
   try {
-    const nft = await Nft.findOne({ _id: req.params.id, owner: req.user._id });
-
-    if (!nft) {
-      return res.status(404).json({
-        message: "NFT not found",
+    if (!nftId) {
+      res.status(400).json({
+        message: "Invalid Id",
       });
+      return;
     }
 
-    const metadataResponse = await axios.get(nft.tokenURI)
+    const nftService = makeNFTService();
+    const metadata = await nftService.getNFTDetails(nftId, userId);
 
     return res.status(200).json({
       data: {
-        metadata: metadataResponse.data,
+        metadata,
       },
       message: "Retrieved NFT successfully",
     });

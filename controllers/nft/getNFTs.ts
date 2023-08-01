@@ -1,11 +1,12 @@
 import { Response } from "express";
-import Nft from "../../common-services/models/Nft";
 import { CustomRequest } from "../../common-services/types/request";
+import { makeNFTService } from "../../common-services/services/nft/makeNFTService";
 
 export const getNFTs = async (req: CustomRequest, res: Response) => {
   try {
-    const userId = req.user._id; // retrieve the authenticated user's ID from the request
-    const nfts = await Nft.find({ owner: userId }); // find NFTs where the owner field matches the user's ID
+    const userId = req.user._id;
+    const nftService = makeNFTService();
+    const nfts = await nftService.getNFTsByOwner(userId);
     res.json(nfts);
   } catch (err) {
     res.status(500).json({ message: "Error retrieving NFTs", err });

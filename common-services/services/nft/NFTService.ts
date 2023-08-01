@@ -4,6 +4,7 @@ import { INFTRepository } from "../../repositories/nft/INFTRepository";
 import { IIPFSservice } from "../files/IIPFSservice";
 import { IWeb3Service } from "../web3/IWeb3Service";
 import { INFTService } from "./INFTService";
+import axios from "axios";
 
 export class NFTService implements INFTService {
   constructor(
@@ -25,5 +26,21 @@ export class NFTService implements INFTService {
       tokenURI: tokenURI,
       tokenId: transactionReciept.logs[0].topics[3],
     });
+  }
+
+  async getNFTDetails(nftId: string, userId: string): Promise<any> {
+    const nft = await this.nftRepository.getOneNFT({
+      _id: nftId,
+      owner: userId,
+    });
+
+    if (!nft) throw new Error("NFT not found");
+
+    const { data } = await axios.get(nft.tokenURI);
+    return data;
+  }
+
+  async getNFTsByOwner(userId: string): Promise<INft[]> {
+    return this.nftRepository.getNFTs({ owner: userId });
   }
 }
