@@ -4,6 +4,11 @@ import {
 } from "@aws-sdk/client-secrets-manager";
 import { credEnv } from "./credEnv";
 
+/**
+ * Function to load secrets from aws secrets manager
+ * @param environment 
+ * @param secretsManagerClient 
+ */
 export async function loadSecrets(
   environment: string,
   secretsManagerClient = new SecretsManagerClient({})

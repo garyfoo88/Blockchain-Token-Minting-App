@@ -14,7 +14,6 @@ export class NFTRepository implements INFTRepository {
   }
 
   async getOneNFT(attributes: any): Promise<INft | null> {
-    const nft = await Nft.findOne(attributes);
-    return nft;
+    return Nft.findOne(attributes);
   }
 }

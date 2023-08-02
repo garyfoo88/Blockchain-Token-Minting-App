@@ -1,22 +1,25 @@
 import { Request, Response } from "express";
-import jwt from "jsonwebtoken";
-import User from "../../common-services/models/User";
-import { validatePassword } from "../../common-services/helpers/auth";
+import { makeUserService } from "../../common-services/services/user/makeUserService";
+import { HttpExceptionError } from "../../common-services/utils/errors";
 
 export const loginUser = async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
-  const user = await User.findOne({ username });
-  if (!user) {
-    return res.status(400).json({ message: "Invalid credentials" });
+  if (!username || !password) {
+    throw new HttpExceptionError(400, "Missing required fields");
   }
 
-  const isMatch = validatePassword(password, user.password);
-  if (!isMatch) {
-    return res.status(400).json({ message: "Invalid credentials" });
+  try {
+    const userService = makeUserService();
+
+    const token = await userService.loginUser(username, password);
+
+    res.status(200).json({ token });
+  } catch (error: any) {
+    if (error.status) {
+      res.status(error.status).json({ message: error.message });
+    } else {
+      res.status(500).json({ message: "Error logging in" });
+    }
   }
-
-  const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET as string);
-
-  res.status(200).json({ token });
 };

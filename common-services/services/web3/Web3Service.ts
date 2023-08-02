@@ -7,6 +7,11 @@ export class Web3Service implements IWeb3Service {
     new Web3.providers.HttpProvider(process.env.INFURA_URL as string)
   );
 
+  /**
+   * Function to sign transaction and returns transaction reciept
+   * @param ethAddress
+   * @param tokenURI
+   */
   async signTransaction(ethAddress: string, tokenURI: string): Promise<any> {
     const nonce = await this.web3.eth.getTransactionCount(
       process.env.ACCOUNT_ADDRESS as string,

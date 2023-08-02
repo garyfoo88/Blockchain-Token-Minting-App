@@ -1,23 +1,26 @@
 import { Request, Response } from "express";
-import User from "../../common-services/models/User";
-import { hashPassword } from "../../common-services/helpers/auth";
+import { makeUserService } from "../../common-services/services/user/makeUserService";
+import { HttpExceptionError } from "../../common-services/utils/errors";
 
 export const registerUser = async (req: Request, res: Response) => {
   const { username, password, ethAddress } = req.body;
 
+  // In actual dev we should set validations/requirements for the below fields (e.g. password/username length)
+  if (!username || !password || !ethAddress) {
+    throw new HttpExceptionError(400, "Missing required fields");
+  }
+
   try {
-    const existingUser = await User.findOne({ username });
-    if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
-    }
+    const userService = makeUserService();
 
-    const hashedPassword = hashPassword(password);
-
-    const user = new User({ username, password: hashedPassword, ethAddress });
-    await user.save();
+    await userService.registerUser(username, password, ethAddress);
 
     res.status(201).json({ message: "User created successfully" });
-  } catch (error) {
-    res.status(500).json({ message: "Error registering user", error });
+  } catch (error: any) {
+    if (error.status) {
+      res.status(error.status).json({ message: error.message });
+    } else {
+      res.status(500).json({ message: "Error registering user", error });
+    }
   }
 };

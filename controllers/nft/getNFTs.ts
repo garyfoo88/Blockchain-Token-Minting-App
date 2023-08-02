@@ -7,8 +7,12 @@ export const getNFTs = async (req: CustomRequest, res: Response) => {
     const userId = req.user._id;
     const nftService = makeNFTService();
     const nfts = await nftService.getNFTsByOwner(userId);
-    res.json(nfts);
-  } catch (err) {
-    res.status(500).json({ message: "Error retrieving NFTs", err });
+    res.status(200).json(nfts);
+  } catch (error: any) {
+    if (error.status) {
+      res.status(error.status).json({ message: error.message });
+    } else {
+      res.status(500).json({ message: "Error registering user", error });
+    }
   }
 };
