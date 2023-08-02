@@ -169,7 +169,7 @@ paths:
                     type: string 
   /auth/login:
     post:
-      summary: Log in a user.
+      summary: Log in a user and get a JWT token to use for authenticating the nft paths
       requestBody:
         required: true
         content:
@@ -216,7 +216,7 @@ paths:
           description: Error logging in
   /auth/register:
     post:
-      summary: Registers a user.
+      summary: Registers a user
       requestBody:
         required: true
         content:
