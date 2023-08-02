@@ -7,7 +7,6 @@ import nftRoutes from "./routes/nft";
 import authRoutes from "./routes/auth";
 import serverless from "serverless-http";
 import { loadSecrets } from "./common-services/utils/secrets";
-import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import yaml from "yamljs";
 config();

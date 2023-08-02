@@ -61,7 +61,16 @@ ts-node server.ts
 2. Database: MongoDB Atlas - MongoDB Atlas is a fully-managed cloud database that handles all the complexity of deploying, managing, and healing your deployments on the cloud service provider of your choice (AWS , Azure, and GCP). https://www.mongodb.com/atlas/database
 3. Blockchain API: Infura - Infura provides the tools and infrastructure that allow developers to easily take their blockchain application. https://www.infura.io/
 4. Writing and deploying smart contract: Remix - Remix Online IDE is a powerful toolset for developing, deploying, debugging, and testing Ethereum and EVM-compatible smart contracts. https://remix.ethereum.org/
+5. Drawing high-level architectural diagram: Draw.Io - draw.io is free online diagram software for making flowcharts, process diagrams, org charts, UML, ER and network diagrams. https://www.drawio.com/
+
+# Deployed smart contract
+
+During the development of this application, the smart contract under `/smart-contracts/MintableNFT/_MintableNFT.sol` was deployed to address `0x8a93431c658Ea1f0D22E86a34710930e50398F4C` on Sepholia testnet (https://sepolia.etherscan.io/address/0x8a93431c658Ea1f0D22E86a34710930e50398F4C).
 
 # Deployment to AWS lamda
 
 Note that this application is currently not deployed to AWS due to absence of an account that i could use for this demo. However, i've added a `serveless.yml` file to demonstrate how the application can be configured for deployment on AWS using the Serverless Framework.
+
+# High-level architectural diagram
+
+A simple high-level architecture diagram showing the various components can be found at /Mintable.drawio.
