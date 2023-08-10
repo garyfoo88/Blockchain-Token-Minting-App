@@ -21,7 +21,7 @@ export const getNFTDetails = async (req: CustomRequest, res: Response) => {
     if (error.status) {
       res.status(error.status).json({ message: error.message });
     } else {
-      res.status(500).json({ message: "Error registering user", error });
+      res.status(500).json({ message: "Error getting NFT Details", error });
     }
   }
 };
