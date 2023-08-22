@@ -1,4 +1,4 @@
-# MintableLite
+# Blockchain-Token-Minting-App
 
 MintableLite is an API service where users can mint, list and sell their NFTs.
 
